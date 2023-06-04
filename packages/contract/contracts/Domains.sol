@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 import {StringUtils} from "./libraries/StringUtils.sol";
 // Base64のライブラリをインポートします。
-// import {Base64} from "./libraries/Base64.sol";
+import {Base64} from "./libraries/Base64.sol";
 
 import "hardhat/console.sol";
 
@@ -109,37 +109,37 @@ contract Domains is ERC721URIStorage {
             newRecordId
         );
 
-        // // JSON形式のNFTのメタデータを作成。文字列を結合しbase64でエンコードします。
-        // string memory json = Base64.encode(
-        //     abi.encodePacked(
-        //         '{"name": "',
-        //         _name,
-        //         '", "description": "A domain on the Ninja name service", "image": "data:image/svg+xml;base64,',
-        //         Base64.encode(bytes(finalSvg)),
-        //         '","length":"',
-        //         strLen,
-        //         '"}'
-        //     )
-        // );
+        // JSON形式のNFTのメタデータを作成。文字列を結合しbase64でエンコードします。
+        string memory json = Base64.encode(
+            abi.encodePacked(
+                '{"name": "',
+                _name,
+                '", "description": "A domain on the Ninja name service", "image": "data:image/svg+xml;base64,',
+                Base64.encode(bytes(finalSvg)),
+                '","length":"',
+                strLen,
+                '"}'
+            )
+        );
 
-        // string memory finalTokenUri = string(
-        //     abi.encodePacked("data:application/json;base64,", json)
-        // );
+        string memory finalTokenUri = string(
+            abi.encodePacked("data:application/json;base64,", json)
+        );
 
-        // console.log(
-        //     "\n--------------------------------------------------------"
-        // );
-        // console.log("Final tokenURI", finalTokenUri);
-        // console.log(
-        //     "--------------------------------------------------------\n"
-        // );
+        console.log(
+            "\n--------------------------------------------------------"
+        );
+        console.log("Final tokenURI", finalTokenUri);
+        console.log(
+            "--------------------------------------------------------\n"
+        );
 
-        // _safeMint(msg.sender, newRecordId);
-        // _setTokenURI(newRecordId, finalTokenUri);
-        // domains[name] = msg.sender;
+        _safeMint(msg.sender, newRecordId);
+        _setTokenURI(newRecordId, finalTokenUri);
+        domains[name] = msg.sender;
 
-        // names[newRecordId] = name;
-        // _tokenIds.increment();
+        names[newRecordId] = name;
+        _tokenIds.increment();
     }
 
     function getAddress(string calldata name) public view returns (address) {
